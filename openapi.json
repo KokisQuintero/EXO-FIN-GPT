@@ -1,8 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "EXO-FIN GPT API",
-    "version": "1.0.0"
+    "title": "EXO-FIN GPT – Sistema de Inversión Exponencial",
+    "version": "1.0.0",
+    "description": "EXO-FIN GPT maximiza tu portafolio con IA adaptativa. Detecta oportunidades con ROI ≥ 300%, ajusta SL/TP y aprende de errores para lograr 1000% anual desde CommSec."
   },
   "servers": [
     {
@@ -12,21 +13,19 @@
   "paths": {
     "/price": {
       "get": {
-        "summary": "Obtener precio en tiempo real",
+        "summary": "Obtener precio en tiempo real de una acción",
         "operationId": "getPrice",
         "parameters": [
           {
             "name": "symbol",
             "in": "query",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
           "200": {
-            "description": "Precio actual",
+            "description": "Precio actual del activo",
             "content": {
               "application/json": {}
             }
@@ -36,7 +35,7 @@
     },
     "/roi": {
       "post": {
-        "summary": "Calcular ROI neto",
+        "summary": "Calcular retorno de inversión neto",
         "operationId": "calculateROI",
         "requestBody": {
           "required": true,
@@ -57,7 +56,93 @@
         },
         "responses": {
           "200": {
-            "description": "ROI calculado",
+            "description": "Resultado del ROI calculado",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/rotation": {
+      "post": {
+        "summary": "Sugerir rotación óptima de portafolio",
+        "operationId": "suggestRotation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "positions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "symbol": { "type": "string" },
+                        "shares": { "type": "integer" },
+                        "buy_price": { "type": "number" }
+                      },
+                      "required": ["symbol", "shares", "buy_price"]
+                    }
+                  }
+                },
+                "required": ["positions"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Recomendación de rotación de activos",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/risk": {
+      "get": {
+        "summary": "Evaluar el riesgo de una posición",
+        "operationId": "evaluateRisk",
+        "parameters": [
+          { "name": "symbol", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "shares", "in": "query", "required": true, "schema": { "type": "integer" } },
+          { "name": "buy_price", "in": "query", "required": true, "schema": { "type": "number" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Nivel de riesgo evaluado",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/autocritic": {
+      "get": {
+        "summary": "Autoevaluación y mejora del algoritmo",
+        "operationId": "reviewErrors",
+        "responses": {
+          "200": {
+            "description": "Resumen de aciertos y errores recientes",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/topidea": {
+      "get": {
+        "summary": "Obtener idea Moonshot con ROI ≥ 300%",
+        "operationId": "generateMoonshot",
+        "responses": {
+          "200": {
+            "description": "Idea global de inversión con ROI potencial alto",
             "content": {
               "application/json": {}
             }
