@@ -1,0 +1,69 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "EXO-FIN GPT API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://web-production-54fe.up.railway.app"
+    }
+  ],
+  "paths": {
+    "/price": {
+      "get": {
+        "summary": "Obtener precio en tiempo real",
+        "operationId": "getPrice",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Precio actual",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/roi": {
+      "post": {
+        "summary": "Calcular ROI neto",
+        "operationId": "calculateROI",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "buy_price": { "type": "number" },
+                  "sell_price": { "type": "number" },
+                  "shares": { "type": "integer" },
+                  "commission": { "type": "number" }
+                },
+                "required": ["buy_price", "sell_price", "shares", "commission"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ROI calculado",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}
